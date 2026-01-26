@@ -10,9 +10,12 @@ interface JobSearchResultsProps {
     jobLocation: string[];
     jobType: string[];
   };
+  onFilterClick?: () => void;
+  showMobileFilters?: boolean;
+  onCloseMobileFilters?: () => void;
 }
 
-const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
+const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick }) => {
   const [sortBy, setSortBy] = useState('proximity');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -21,13 +24,14 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
     {
       id: '1',
       title: 'FIELD SERVICE PROFESSIONAL - EDMONTON',
-      location: 'Virtual, AB',
+      location: 'Edmonton, AB',
       address: 'Virtual, AB',
       reqId: 'Req163351',
       jobType: 'Full Time',
       workType: 'Multiple Locations',
       careerArea: 'Field',
-      isNew: false
+      isNew: false,
+      image: '/images/assistant-store-manager-fj.dd1dc314.webp'
     },
     {
       id: '2',
@@ -38,7 +42,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
       jobType: 'Part Time',
       workType: 'Onsite',
       careerArea: 'Retail Store',
-      isNew: false
+      isNew: false,
+      image: '/images/cashier-fj.dd6cbaeb.webp'
     },
     {
       id: '3',
@@ -49,7 +54,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
       jobType: 'Part Time',
       workType: 'Onsite',
       careerArea: 'Retail Store',
-      isNew: true
+      isNew: false,
+      image: '/images/department-supervisor-fj.33264519.webp'
     },
     {
       id: '4',
@@ -60,18 +66,32 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
       jobType: 'Part Time',
       workType: 'Onsite',
       careerArea: 'Retail Store',
-      isNew: false
+      isNew: false,
+      image: '/images/freight-associate-fj.235589f6.webp'
     },
     {
       id: '5',
       title: 'LOT ASSOCIATE PART TIME (SYDNEY)',
       location: 'Sydney, NS',
       address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
-      reqId: 'Req164117',
+      reqId: 'Req164115',
       jobType: 'Part Time',
       workType: 'Onsite',
       careerArea: 'Retail Store',
-      isNew: false
+      isNew: false,
+      image: '/images/assistant-store-manager-fj.dd1dc314.webp'
+    },
+    {
+      id: '6',
+      title: 'LUMBER AND BUILDING MATERIALS SALES PART TIME (HALIFAX)',
+      location: 'Halifax, NS',
+      address: '368 Lacewood Drive, Halifax, NS B3S 1L8',
+      reqId: 'Req164026',
+      jobType: 'Part Time',
+      workType: 'Onsite',
+      careerArea: 'Retail Store',
+      isNew: false,
+      image: '/images/cashier-fj.dd6cbaeb.webp'
     }
   ];
 
@@ -79,16 +99,34 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
   const generateJobs = () => {
     const allJobs = [];
     const jobTitles = [
-      'SALES ASSOCIATE', 'CASHIER', 'LOT ASSOCIATE', 'FREIGHT ASSOCIATE',
-      'DEPARTMENT SUPERVISOR', 'ASSISTANT STORE MANAGER', 'STORE MANAGER',
-      'MERCHANDISING ASSOCIATE', 'CUSTOMER SERVICE ASSOCIATE', 'PRO ASSOCIATE'
+      'DATA ENTRY', 'DATA ENTRY SPECIALIST', 'DATA ENTRY CLERK', 'DATA PROCESSING ASSOCIATE',
+      'PAYROLL CLERK', 'PAYROLL SPECIALIST', 'PAYROLL ADMINISTRATOR', 'PAYROLL ASSISTANT',
+      'CUSTOMER REPRESENTATIVE', 'CUSTOMER SERVICE REPRESENTATIVE', 'CUSTOMER SUPPORT REPRESENTATIVE', 'CUSTOMER CARE REPRESENTATIVE',
+      'VIRTUAL ASSISTANT', 'REMOTE ASSISTANT', 'ADMINISTRATIVE ASSISTANT', 'EXECUTIVE ASSISTANT'
     ];
     const locations = [
-      { city: 'Toronto', province: 'ON', address: '123 Main St, Toronto, ON M1A 1A1' },
-      { city: 'Vancouver', province: 'BC', address: '456 Oak Ave, Vancouver, BC V1B 2C2' },
-      { city: 'Calgary', province: 'AB', address: '789 Pine Rd, Calgary, AB T1A 2B3' },
-      { city: 'Montreal', province: 'QC', address: '321 Maple St, Montreal, QC H1A 2B3' },
-      { city: 'Ottawa', province: 'ON', address: '654 Elm Dr, Ottawa, ON K1A 2B3' }
+      // US addresses
+      { city: 'New York', state: 'NY', address: '245 Park Avenue, New York, NY 10167, USA' },
+      { city: 'Los Angeles', state: 'CA', address: '2450 W Olympic Blvd, Los Angeles, CA 90064, USA' },
+      { city: 'Chicago', state: 'IL', address: '245 N Michigan Ave, Chicago, IL 60601, USA' },
+      { city: 'Houston', state: 'TX', address: '2450 Main St, Houston, TX 77002, USA' },
+      { city: 'Phoenix', state: 'AZ', address: '2450 E Camelback Rd, Phoenix, AZ 85016, USA' },
+      { city: 'Philadelphia', state: 'PA', address: '2450 Market St, Philadelphia, PA 19103, USA' },
+      { city: 'San Antonio', state: 'TX', address: '2450 Broadway St, San Antonio, TX 78215, USA' },
+      { city: 'San Diego', state: 'CA', address: '2450 Kettner Blvd, San Diego, CA 92101, USA' },
+      { city: 'Dallas', state: 'TX', address: '2450 N Pearl St, Dallas, TX 75201, USA' },
+      { city: 'San Jose', state: 'CA', address: '2450 N First St, San Jose, CA 95131, USA' },
+      // Canada addresses
+      { city: 'Toronto', province: 'ON', address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada' },
+      { city: 'Vancouver', province: 'BC', address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada' },
+      { city: 'Calgary', province: 'AB', address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada' },
+      { city: 'Montreal', province: 'QC', address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada' },
+      { city: 'Ottawa', province: 'ON', address: '2450 Riverside Dr, Ottawa, ON K1H 8K5, Canada' },
+      { city: 'Edmonton', province: 'AB', address: '2450 Jasper Ave, Edmonton, AB T5J 3N9, Canada' },
+      { city: 'Winnipeg', province: 'MB', address: '2450 Portage Ave, Winnipeg, MB R3J 0E4, Canada' },
+      { city: 'Quebec City', province: 'QC', address: '2450 Boulevard Laurier, Quebec City, QC G1V 2L2, Canada' },
+      { city: 'Hamilton', province: 'ON', address: '2450 Main St W, Hamilton, ON L8N 3Z5, Canada' },
+      { city: 'Kitchener', province: 'ON', address: '2450 King St E, Kitchener, ON N2A 1A5, Canada' }
     ];
     const jobTypes = ['Full Time', 'Part Time', 'Seasonal'];
     const workTypes = ['Onsite', 'Hybrid', 'Multiple Locations', 'Virtual'];
@@ -109,7 +147,14 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
     allJobs.push(...baseJobs);
 
     // Generate additional jobs
-    for (let i = 6; i <= 372; i++) {
+    const jobImages = [
+      '/images/assistant-store-manager-fj.dd1dc314.webp',
+      '/images/cashier-fj.dd6cbaeb.webp',
+      '/images/department-supervisor-fj.33264519.webp',
+      '/images/freight-associate-fj.235589f6.webp'
+    ];
+    
+    for (let i = 7; i <= 372; i++) {
       const jobId = i.toString();
       // Use deterministic selection based on job ID
       const titleIndex = hash(`title-${jobId}`) % jobTitles.length;
@@ -117,20 +162,25 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
       const jobTypeIndex = hash(`jobType-${jobId}`) % jobTypes.length;
       const workTypeIndex = hash(`workType-${jobId}`) % workTypes.length;
       const careerAreaIndex = hash(`careerArea-${jobId}`) % careerAreas.length;
+      const imageIndex = hash(`image-${jobId}`) % jobImages.length;
       
       // Deterministic isNew: roughly 10% of jobs (based on hash)
       const isNew = (hash(`isNew-${jobId}`) % 10) === 0;
       
+      const selectedLocation = locations[locationIndex];
+      const locationName = selectedLocation.city + (selectedLocation.state ? `, ${selectedLocation.state}` : `, ${selectedLocation.province}`);
+      
       allJobs.push({
         id: jobId,
-        title: `${jobTitles[titleIndex]} - ${locations[locationIndex].city.toUpperCase()}`,
-        location: `${locations[locationIndex].city}, ${locations[locationIndex].province}`,
-        address: locations[locationIndex].address,
+        title: `${jobTitles[titleIndex]}`,
+        location: locationName,
+        address: selectedLocation.address,
         reqId: `Req${160000 + i}`,
         jobType: jobTypes[jobTypeIndex],
-        workType: workTypes[workTypeIndex],
+        workType: 'Remote',
         careerArea: careerAreas[careerAreaIndex],
-        isNew
+        isNew,
+        image: jobImages[imageIndex]
       });
     }
 
@@ -190,8 +240,26 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
 
   return (
     <div>
-      {/* Header with Sort and Pagination */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      {/* Mobile Header - Job Count and Filter Button */}
+      <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-700">
+            Showing {startIndex}-{endIndex} of {totalJobs} jobs
+          </span>
+          <button
+            onClick={onFilterClick}
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <span>Filter</span>
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop Header with Sort and Pagination */}
+      <div className="hidden lg:flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-2 text-sm text-gray-700">
           <span>Showing {startIndex}-{endIndex} of {totalJobs} jobs sorted by</span>
           <select
@@ -240,18 +308,19 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters }) => {
       </div>
 
       {/* Job Listings */}
-      <div className="space-y-4">
-        {paginatedJobs.map((job) => (
-          <JobListingCard
-            key={job.id}
-            id={job.id}
-            title={job.title}
-            address={job.address}
-            reqId={job.reqId}
-            jobType={job.jobType}
-            workType={job.workType}
-            isNew={job.isNew}
-          />
+      <div className="space-y-0 lg:space-y-4">
+        {paginatedJobs.map((job, index) => (
+          <div key={job.id} className={index > 0 ? 'border-t border-gray-200' : ''}>
+            <JobListingCard
+              id={job.id}
+              title={job.title}
+              address={job.address}
+              reqId={job.reqId}
+              jobType={job.jobType}
+              workType={job.workType}
+              isNew={job.isNew}
+            />
+          </div>
         ))}
       </div>
     </div>
