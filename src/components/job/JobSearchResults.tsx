@@ -19,79 +19,103 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
   const [sortBy, setSortBy] = useState('proximity');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Generate mock job data - base jobs that will be repeated
+  // Generate mock job data - prioritize Data Entry, Payroll Clerk, Customer Representative, Virtual Assistant
   const baseJobs = [
     {
       id: '1',
-      title: 'FIELD SERVICE PROFESSIONAL - EDMONTON',
-      location: 'Edmonton, AB',
+      title: 'DATA ENTRY',
+      location: 'Virtual, AB',
       address: 'Virtual, AB',
       reqId: 'Req163351',
       jobType: 'Full Time',
-      workType: 'Multiple Locations',
-      careerArea: 'Field',
-      isNew: false,
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: true,
       image: '/images/assistant-store-manager-fj.dd1dc314.webp'
     },
     {
       id: '2',
-      title: 'OVERNIGHT FREIGHT ASSOCIATE PART TIME (ST.JOHN\'S)',
-      location: 'St. Johns, NL',
-      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+      title: 'PAYROLL CLERK',
+      location: 'Virtual, AB',
+      address: 'Virtual, AB',
       reqId: 'Req164191',
-      jobType: 'Part Time',
-      workType: 'Onsite',
-      careerArea: 'Retail Store',
-      isNew: false,
+      jobType: 'Full Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: true,
       image: '/images/cashier-fj.dd6cbaeb.webp'
     },
     {
       id: '3',
-      title: 'ELECTRICAL/PLUMBING SALES PART TIME (ST.JOHN\'S)',
-      location: 'St. Johns, NL',
-      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+      title: 'CUSTOMER REPRESENTATIVE',
+      location: 'Virtual, AB',
+      address: 'Virtual, AB',
       reqId: 'Req164345',
-      jobType: 'Part Time',
-      workType: 'Onsite',
-      careerArea: 'Retail Store',
-      isNew: false,
+      jobType: 'Full Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: true,
       image: '/images/department-supervisor-fj.33264519.webp'
     },
     {
       id: '4',
-      title: 'CASHIER PART TIME (SYDNEY)',
-      location: 'Sydney, NS',
-      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
+      title: 'VIRTUAL ASSISTANT',
+      location: 'Virtual, AB',
+      address: 'Virtual, AB',
       reqId: 'Req164116',
-      jobType: 'Part Time',
-      workType: 'Onsite',
-      careerArea: 'Retail Store',
-      isNew: false,
+      jobType: 'Full Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: true,
       image: '/images/freight-associate-fj.235589f6.webp'
     },
     {
       id: '5',
-      title: 'LOT ASSOCIATE PART TIME (SYDNEY)',
-      location: 'Sydney, NS',
-      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
-      reqId: 'Req164115',
+      title: 'DATA ENTRY SPECIALIST',
+      location: 'Toronto, ON',
+      address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada',
+      reqId: 'Req164117',
       jobType: 'Part Time',
-      workType: 'Onsite',
-      careerArea: 'Retail Store',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
       isNew: false,
       image: '/images/assistant-store-manager-fj.dd1dc314.webp'
     },
     {
       id: '6',
-      title: 'LUMBER AND BUILDING MATERIALS SALES PART TIME (HALIFAX)',
-      location: 'Halifax, NS',
-      address: '368 Lacewood Drive, Halifax, NS B3S 1L8',
-      reqId: 'Req164026',
-      jobType: 'Part Time',
-      workType: 'Onsite',
-      careerArea: 'Retail Store',
+      title: 'PAYROLL SPECIALIST',
+      location: 'Vancouver, BC',
+      address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada',
+      reqId: 'Req164118',
+      jobType: 'Full Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
       isNew: false,
       image: '/images/cashier-fj.dd6cbaeb.webp'
+    },
+    {
+      id: '7',
+      title: 'CUSTOMER SERVICE REPRESENTATIVE',
+      location: 'Calgary, AB',
+      address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada',
+      reqId: 'Req164119',
+      jobType: 'Full Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: false,
+      image: '/images/department-supervisor-fj.33264519.webp'
+    },
+    {
+      id: '8',
+      title: 'REMOTE ASSISTANT',
+      location: 'Montreal, QC',
+      address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada',
+      reqId: 'Req164120',
+      jobType: 'Part Time',
+      workType: 'Virtual',
+      careerArea: 'Corporate',
+      isNew: false,
+      image: '/images/freight-associate-fj.235589f6.webp'
     }
   ];
 
@@ -154,7 +178,7 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
       '/images/freight-associate-fj.235589f6.webp'
     ];
     
-    for (let i = 7; i <= 372; i++) {
+    for (let i = 9; i <= 372; i++) {
       const jobId = i.toString();
       // Use deterministic selection based on job ID
       const titleIndex = hash(`title-${jobId}`) % jobTitles.length;
@@ -177,7 +201,7 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
         address: selectedLocation.address,
         reqId: `Req${160000 + i}`,
         jobType: jobTypes[jobTypeIndex],
-        workType: 'Remote',
+        workType: workTypes[workTypeIndex],
         careerArea: careerAreas[careerAreaIndex],
         isNew,
         image: jobImages[imageIndex]
@@ -202,21 +226,57 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
         return false;
       }
 
-      // Filter by job location (check if location matches any selected location)
+      // Filter by job location - check if location matches any selected location
       if (filters.jobLocation?.length) {
         const jobLocationMatch = filters.jobLocation.some(selectedLocation => {
-          // Check if job location contains the selected location (e.g., "AB - Calgary" matches "Calgary, AB")
+          // Handle "Virtual" location separately
+          if (selectedLocation === 'Virtual' || selectedLocation.toUpperCase().includes('VIRTUAL')) {
+            return job.location.toUpperCase().includes('VIRTUAL') || 
+                   job.address.toUpperCase().includes('VIRTUAL');
+          }
+          
+          // Parse selected location (e.g., "AB - Calgary" -> province: "AB", city: "Calgary")
           const [province, city] = selectedLocation.split(' - ');
-          return job.location.includes(city) || job.location.includes(province);
+          
+          // Normalize for comparison (case-insensitive)
+          const normalizedProvince = province?.trim().toUpperCase();
+          const normalizedCity = city?.trim().toUpperCase();
+          
+          // Check location field (e.g., "Calgary, AB" or "Toronto, ON")
+          const locationUpper = job.location.toUpperCase();
+          const locationMatch = (normalizedCity && locationUpper.includes(normalizedCity)) || 
+                               (normalizedProvince && locationUpper.includes(normalizedProvince));
+          
+          // Check address field (e.g., "2450 32 Ave NE, Calgary, AB T2E 6T8")
+          const addressUpper = job.address.toUpperCase();
+          const addressMatch = (normalizedCity && addressUpper.includes(normalizedCity)) || 
+                             (normalizedProvince && addressUpper.includes(normalizedProvince));
+          
+          return locationMatch || addressMatch;
         });
+        
         if (!jobLocationMatch) {
           return false;
         }
       }
 
       // Filter by job type
-      if (filters.jobType?.length && !filters.jobType.includes(job.jobType)) {
-        return false;
+      if (filters.jobType?.length) {
+        // Handle "Other" job type - includes any job type not in standard list
+        if (filters.jobType.includes('Other')) {
+          const standardTypes = ['Full Time', 'Part Time', 'Seasonal'];
+          // If job is a standard type, check if that type is also selected
+          if (standardTypes.includes(job.jobType)) {
+            return filters.jobType.some(type => type !== 'Other' && type === job.jobType);
+          }
+          // If job is not a standard type and "Other" is selected, include it
+          return true;
+        } else {
+          // Standard filtering - job type must match one of the selected types
+          if (!filters.jobType.includes(job.jobType)) {
+            return false;
+          }
+        }
       }
 
       return true;

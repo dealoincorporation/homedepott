@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { featuredJobsData } from '@/data/featured-jobs';
 
 interface JobDetailProps {
   jobId: string;
@@ -29,105 +30,86 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
   useEffect(() => {
     // Generate job data dynamically - matches JobSearchResults logic
     const generateJobData = (id: string): JobData | null => {
-      // Base jobs with detailed information
+      // Map job IDs to featured jobs data
+      const featuredJobMap: Record<string, keyof typeof featuredJobsData> = {
+        '1': 'data-entry',
+        '2': 'payroll-clerk',
+        '3': 'customer-representative',
+        '4': 'virtual-assistant',
+      };
+
+      // Check if this job ID maps to a featured job
+      const featuredJobKey = featuredJobMap[id];
+      if (featuredJobKey && featuredJobsData[featuredJobKey]) {
+        const featuredJob = featuredJobsData[featuredJobKey];
+        return {
+          id,
+          title: featuredJob.title.toUpperCase(),
+          address: featuredJob.jobLocation || 'Virtual, AB',
+          reqId: featuredJob.reqId || `Req${160000 + parseInt(id)}`,
+          jobType: featuredJob.jobType || 'Full Time',
+          workType: featuredJob.type || 'Virtual',
+          careerArea: featuredJob.careerArea || 'Corporate',
+          description: featuredJob.description || 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
+          overview: featuredJob.positionOverview || featuredJob.aboutRole || '',
+          responsibilities: featuredJob.keyResponsibilities || featuredJob.whatYoullDo || [],
+          qualifications: featuredJob.qualifications || featuredJob.whatWereLookingFor || [],
+        };
+      }
+
+      // Base jobs with detailed information (for other job types)
       const baseJobs: Record<string, JobData> = {
-        '1': {
-          id: '1',
-          title: 'FIELD SERVICE PROFESSIONAL - EDMONTON',
-          address: 'Virtual, AB',
-          reqId: 'Req163351',
-          jobType: 'Full Time',
-          workType: 'Multiple Locations',
-          careerArea: 'Field',
-          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
-          overview: 'The Field Service Professional (FSP) will maintain light industrial equipment (paint shakers, saws, blind cutting machines, lift equipment) at Home Depot retail locations and manufacturing facilities. The FSP must be a self-starter, customer service oriented, and have the ability to perform preventative maintenance and repairs on light industrial equipment. The FSP will travel with a company vehicle to various Home Depot locations.',
-          responsibilities: [
-            'Maintain, troubleshoot and service light industrial equipment both mechanically and electrically.',
-            'Perform preventative maintenance on equipment to ensure optimal performance.',
-            'Respond to service calls in a timely manner and provide excellent customer service.',
-            'Travel to various Home Depot locations using company vehicle.',
-            'Document all service work and maintain accurate records.',
-            'Work independently and manage time effectively.',
-          ],
-          qualifications: [
-            'High school diploma or equivalent.',
-            'Previous experience with light industrial equipment maintenance preferred.',
-            'Strong mechanical and electrical troubleshooting skills.',
-            'Valid driver\'s license and clean driving record.',
-            'Excellent customer service and communication skills.',
-            'Ability to work independently and manage time effectively.',
-          ],
-        },
-        '2': {
-          id: '2',
-          title: 'OVERNIGHT FREIGHT ASSOCIATE PART TIME (ST.JOHN\'S)',
-          address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
-          reqId: 'Req164191',
-          jobType: 'Part Time',
-          workType: 'Onsite',
-          careerArea: 'Retail Store',
-          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
-          overview: 'Our Freight Team Associates are dedicated to working together to create a pleasant and healthy environment to shop and work in. Stocking the shelves to full capacity. Keeping the store neat and organized to create a safe space for customers to visit. Teamwork and commitment, that\'s what our team is about.',
-          responsibilities: [
-            'Unload merchandise from trucks and organize in the stockroom.',
-            'Stock shelves to full capacity and maintain organized displays.',
-            'Ensure store is clean, safe, and ready for customers.',
-            'Work overnight shifts to prepare store for next day operations.',
-            'Follow safety procedures and guidelines.',
-          ],
-        },
-        '3': {
-          id: '3',
-          title: 'ELECTRICAL/PLUMBING SALES PART TIME (ST.JOHN\'S)',
-          address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
-          reqId: 'Req164345',
-          jobType: 'Part Time',
-          workType: 'Onsite',
-          careerArea: 'Retail Store',
-          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
-          overview: 'Sales Associates provide excellent customer service by helping customers find the right products for their projects, answering questions, and maintaining department organization.',
-          responsibilities: [
-            'Assist customers with product selection and provide expert advice.',
-            'Maintain department organization and product displays.',
-            'Process transactions and handle customer inquiries.',
-            'Stay current on product knowledge and industry trends.',
-          ],
-        },
-        '4': {
-          id: '4',
-          title: 'CASHIER PART TIME (SYDNEY)',
-          address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
-          reqId: 'Req164116',
-          jobType: 'Part Time',
-          workType: 'Onsite',
-          careerArea: 'Retail Store',
-          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
-          overview: 'Cashiers are the face of The Home Depot, providing fast, friendly, and accurate service to our customers. They ensure a safe and organized checkout area and assist customers with transactions, questions, and locating products.',
-          responsibilities: [
-            'Process customer transactions accurately and efficiently.',
-            'Maintain a clean and organized checkout area.',
-            'Assist customers with questions and product location.',
-            'Handle returns and exchanges according to store policy.',
-            'Provide excellent customer service at all times.',
-          ],
-        },
         '5': {
           id: '5',
-          title: 'LOT ASSOCIATE PART TIME (SYDNEY)',
-          address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
+          title: 'DATA ENTRY SPECIALIST',
+          address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada',
           reqId: 'Req164117',
           jobType: 'Part Time',
-          workType: 'Onsite',
-          careerArea: 'Retail Store',
+          workType: 'Virtual',
+          careerArea: 'Corporate',
           description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
-          overview: 'Lot Associates are the first point of contact for customers arriving at our stores. You\'ll assist customers with loading purchases, maintain the parking lot and store entrance, and provide exceptional customer service.',
-          responsibilities: [
-            'Assist customers with loading purchases into vehicles.',
-            'Maintain a clean and organized parking lot.',
-            'Provide directions and answer customer questions.',
-            'Monitor shopping carts and ensure availability.',
-            'Follow safety procedures when handling merchandise.',
-          ],
+          overview: featuredJobsData['data-entry']?.positionOverview || 'As a Data Entry Specialist, you\'ll be responsible for accurately entering and maintaining data in our systems.',
+          responsibilities: featuredJobsData['data-entry']?.keyResponsibilities || [],
+          qualifications: featuredJobsData['data-entry']?.qualifications || [],
+        },
+        '6': {
+          id: '6',
+          title: 'PAYROLL SPECIALIST',
+          address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada',
+          reqId: 'Req164118',
+          jobType: 'Full Time',
+          workType: 'Virtual',
+          careerArea: 'Corporate',
+          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
+          overview: featuredJobsData['payroll-clerk']?.positionOverview || 'As a Payroll Specialist, you\'ll be responsible for processing employee payroll accurately and on time.',
+          responsibilities: featuredJobsData['payroll-clerk']?.keyResponsibilities || [],
+          qualifications: featuredJobsData['payroll-clerk']?.qualifications || [],
+        },
+        '7': {
+          id: '7',
+          title: 'CUSTOMER SERVICE REPRESENTATIVE',
+          address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada',
+          reqId: 'Req164119',
+          jobType: 'Full Time',
+          workType: 'Virtual',
+          careerArea: 'Corporate',
+          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
+          overview: featuredJobsData['customer-representative']?.positionOverview || 'As a Customer Service Representative, you\'ll be the primary point of contact for our customers.',
+          responsibilities: featuredJobsData['customer-representative']?.keyResponsibilities || [],
+          qualifications: featuredJobsData['customer-representative']?.qualifications || [],
+        },
+        '8': {
+          id: '8',
+          title: 'REMOTE ASSISTANT',
+          address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada',
+          reqId: 'Req164120',
+          jobType: 'Part Time',
+          workType: 'Virtual',
+          careerArea: 'Corporate',
+          description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
+          overview: featuredJobsData['virtual-assistant']?.positionOverview || featuredJobsData['virtual-assistant']?.aboutRole || 'As a Remote Assistant, you\'ll provide administrative and support services remotely.',
+          responsibilities: featuredJobsData['virtual-assistant']?.whatYoullDo || [],
+          qualifications: featuredJobsData['virtual-assistant']?.whatWereLookingFor || [],
         },
       };
 
@@ -138,6 +120,10 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
 
       // Generate job data for other IDs (matching JobSearchResults logic)
       const jobTitles = [
+        'DATA ENTRY', 'DATA ENTRY SPECIALIST', 'DATA ENTRY CLERK', 'DATA PROCESSING ASSOCIATE',
+        'PAYROLL CLERK', 'PAYROLL SPECIALIST', 'PAYROLL ADMINISTRATOR', 'PAYROLL ASSISTANT',
+        'CUSTOMER REPRESENTATIVE', 'CUSTOMER SERVICE REPRESENTATIVE', 'CUSTOMER SUPPORT REPRESENTATIVE', 'CUSTOMER CARE REPRESENTATIVE',
+        'VIRTUAL ASSISTANT', 'REMOTE ASSISTANT', 'ADMINISTRATIVE ASSISTANT', 'EXECUTIVE ASSISTANT',
         'SALES ASSOCIATE', 'CASHIER', 'LOT ASSOCIATE', 'FREIGHT ASSOCIATE',
         'DEPARTMENT SUPERVISOR', 'ASSISTANT STORE MANAGER', 'STORE MANAGER',
         'MERCHANDISING ASSOCIATE', 'CUSTOMER SERVICE ASSOCIATE', 'PRO ASSOCIATE'
@@ -181,6 +167,23 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
 
       // Generic job descriptions based on title
       const getJobOverview = (title: string, careerArea: string) => {
+        // Check for Data Entry related jobs
+        if (title.includes('DATA ENTRY') || title.includes('DATA PROCESSING')) {
+          return featuredJobsData['data-entry']?.positionOverview || 'As a Data Entry Specialist, you\'ll be responsible for accurately entering and maintaining data in our systems.';
+        }
+        // Check for Payroll related jobs
+        if (title.includes('PAYROLL')) {
+          return featuredJobsData['payroll-clerk']?.positionOverview || 'As a Payroll Clerk, you\'ll be responsible for processing employee payroll accurately and on time.';
+        }
+        // Check for Customer Representative related jobs
+        if (title.includes('CUSTOMER REPRESENTATIVE') || title.includes('CUSTOMER SERVICE') || title.includes('CUSTOMER SUPPORT') || title.includes('CUSTOMER CARE')) {
+          return featuredJobsData['customer-representative']?.positionOverview || 'As a Customer Representative, you\'ll be the primary point of contact for our customers, providing exceptional service and support.';
+        }
+        // Check for Virtual/Remote Assistant jobs
+        if (title.includes('VIRTUAL ASSISTANT') || title.includes('REMOTE ASSISTANT') || title.includes('ADMINISTRATIVE ASSISTANT') || title.includes('EXECUTIVE ASSISTANT')) {
+          return featuredJobsData['virtual-assistant']?.positionOverview || featuredJobsData['virtual-assistant']?.aboutRole || 'As a Virtual Assistant, you\'ll provide administrative and support services remotely to help our team operate efficiently.';
+        }
+        // Other job types
         if (title.includes('SALES ASSOCIATE')) {
           return 'Sales Associates provide excellent customer service by helping customers find the right products for their projects, answering questions, and maintaining department organization.';
         } else if (title.includes('CASHIER')) {
@@ -199,6 +202,23 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
       };
 
       const getResponsibilities = (title: string) => {
+        // Check for Data Entry related jobs
+        if (title.includes('DATA ENTRY') || title.includes('DATA PROCESSING')) {
+          return featuredJobsData['data-entry']?.keyResponsibilities || featuredJobsData['data-entry']?.whatYoullDo || [];
+        }
+        // Check for Payroll related jobs
+        if (title.includes('PAYROLL')) {
+          return featuredJobsData['payroll-clerk']?.keyResponsibilities || featuredJobsData['payroll-clerk']?.whatYoullDo || [];
+        }
+        // Check for Customer Representative related jobs
+        if (title.includes('CUSTOMER REPRESENTATIVE') || title.includes('CUSTOMER SERVICE') || title.includes('CUSTOMER SUPPORT') || title.includes('CUSTOMER CARE')) {
+          return featuredJobsData['customer-representative']?.keyResponsibilities || featuredJobsData['customer-representative']?.whatYoullDo || [];
+        }
+        // Check for Virtual/Remote Assistant jobs
+        if (title.includes('VIRTUAL ASSISTANT') || title.includes('REMOTE ASSISTANT') || title.includes('ADMINISTRATIVE ASSISTANT') || title.includes('EXECUTIVE ASSISTANT')) {
+          return featuredJobsData['virtual-assistant']?.whatYoullDo || [];
+        }
+        // Other job types
         if (title.includes('SALES ASSOCIATE')) {
           return [
             'Assist customers with product selection and provide expert advice.',
@@ -242,6 +262,29 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
         }
       };
 
+      // Get qualifications based on job title
+      const getQualifications = (title: string) => {
+        if (title.includes('DATA ENTRY') || title.includes('DATA PROCESSING')) {
+          return featuredJobsData['data-entry']?.qualifications || featuredJobsData['data-entry']?.whatWereLookingFor || [];
+        }
+        if (title.includes('PAYROLL')) {
+          return featuredJobsData['payroll-clerk']?.qualifications || featuredJobsData['payroll-clerk']?.whatWereLookingFor || [];
+        }
+        if (title.includes('CUSTOMER REPRESENTATIVE') || title.includes('CUSTOMER SERVICE') || title.includes('CUSTOMER SUPPORT') || title.includes('CUSTOMER CARE')) {
+          return featuredJobsData['customer-representative']?.qualifications || featuredJobsData['customer-representative']?.whatWereLookingFor || [];
+        }
+        if (title.includes('VIRTUAL ASSISTANT') || title.includes('REMOTE ASSISTANT') || title.includes('ADMINISTRATIVE ASSISTANT') || title.includes('EXECUTIVE ASSISTANT')) {
+          return featuredJobsData['virtual-assistant']?.whatWereLookingFor || [];
+        }
+        return [
+          'High school diploma or equivalent preferred.',
+          'Previous retail or customer service experience is an asset.',
+          'Strong communication and interpersonal skills.',
+          'Ability to work flexible schedules including evenings and weekends.',
+          'Physical ability to lift and move merchandise as required.',
+        ];
+      };
+
       return {
         id,
         title,
@@ -253,13 +296,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
         description: 'With a career at The Home Depot, you can be yourself and also be part of something bigger.',
         overview: getJobOverview(title, careerArea),
         responsibilities: getResponsibilities(title),
-        qualifications: [
-          'High school diploma or equivalent preferred.',
-          'Previous retail or customer service experience is an asset.',
-          'Strong communication and interpersonal skills.',
-          'Ability to work flexible schedules including evenings and weekends.',
-          'Physical ability to lift and move merchandise as required.',
-        ],
+        qualifications: getQualifications(title),
       };
     };
 
@@ -297,20 +334,89 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
 
   const displayWorkType = job.workType || job.workArrangement || '';
 
+  // Generate tailored description based on job title
+  const getJobHeroDescription = (title: string, careerArea: string) => {
+    const titleLower = title.toLowerCase();
+    
+    if (titleLower.includes('data entry')) {
+      return 'Join our team as a Data Entry professional and help maintain accurate records and databases that drive our business forward.';
+    } else if (titleLower.includes('payroll')) {
+      return 'Become part of our Payroll team and ensure our associates receive accurate and timely compensation.';
+    } else if (titleLower.includes('customer representative') || titleLower.includes('customer service')) {
+      return 'Help us deliver exceptional customer experiences as a Customer Representative, where every interaction matters.';
+    } else if (titleLower.includes('virtual assistant') || titleLower.includes('remote assistant') || titleLower.includes('administrative assistant')) {
+      return 'Support our team remotely as a Virtual Assistant and help keep our operations running smoothly from anywhere.';
+    } else if (careerArea === 'Corporate') {
+      return 'Explore corporate career opportunities at The Home Depot Canada and be part of a team that drives innovation and growth.';
+    } else if (careerArea === 'Field') {
+      return 'Join our Field Operations team and help maintain equipment and services across our locations.';
+    } else if (careerArea === 'Retail Store') {
+      return 'Work in our retail stores and help customers find the right products for their home improvement projects.';
+    } else if (careerArea === 'Retail Management') {
+      return 'Lead a team in our retail stores and help create exceptional shopping experiences for our customers.';
+    } else {
+      return `Join The Home Depot Canada as a ${title.split(' - ')[0]} and be part of something bigger.`;
+    }
+  };
+
+  const heroDescription = getJobHeroDescription(job.title, job.careerArea);
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Orange line separator */}
-      <div className="h-0.5 bg-orange-600"></div>
+      {/* Hero Image Section */}
+      <section className="relative w-full bg-white">
+        <div className="relative w-full">
+          <div className="relative overflow-hidden">
+            <img
+              src="/general_top_image_mobile.67e5322f (1).webp"
+              alt={`${job.title} at The Home Depot Canada`}
+              className="w-full h-[220px] md:h-[280px] lg:h-[320px] object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600"></div>
+          </div>
+          
+          {/* Dark overlay for text readability */}
+          <div className="hidden md:block absolute inset-0 bg-black/50"></div>
+          
+          {/* Desktop: Content overlaid on image, aligned left */}
+          <div className="hidden md:block absolute inset-0 z-10">
+            <div className="absolute left-6 lg:left-8 top-[55%] -translate-y-1/2 w-[85%] max-w-7xl ml-10">
+              <div className="max-w-2xl">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+                  {job.title}
+                </h1>
+                <p className="text-base md:text-lg text-white mb-4 leading-relaxed opacity-95">
+                  {heroDescription}
+                </p>
+                <Link
+                  href={`/apply/${jobId}`}
+                  className="inline-block px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-base font-semibold transition-colors duration-300 text-center"
+                >
+                  Apply Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile: Content below image, aligned left */}
+        <div className="md:hidden bg-white px-4 py-6">
+          <h1 className="text-2xl font-bold text-black mb-3 leading-tight text-left">
+            {job.title}
+          </h1>
+          <p className="text-base text-gray-700 mb-4 leading-relaxed text-left">
+            {heroDescription}
+          </p>
+          <Link
+            href={`/apply/${jobId}`}
+            className="inline-block px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-base font-semibold transition-colors duration-300 text-center w-full"
+          >
+            Apply Now
+          </Link>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
-        {/* Back button */}
-        <Link 
-          href="/job-search"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6 transition-colors"
-        >
-          <i className="fas fa-arrow-left"></i>
-          <span>Back to Job Search</span>
-        </Link>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Left Column - Job Attributes */}
           <div className="lg:col-span-1">
