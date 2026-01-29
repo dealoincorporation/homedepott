@@ -45,20 +45,20 @@ export default function StartApplicationPage() {
     const mockJobs: Record<string, JobData> = {
       '1': {
         id: '1',
-        title: 'Field Service Professional - Edmonton',
-        address: 'Virtual, AB',
+        title: 'Data Entry Specialist',
+        address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada',
         reqId: 'Req163351',
       },
       '2': {
         id: '2',
         title: 'Overnight Freight Associate Part Time (St.John\'s)',
-        address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+        address: '70 Kelsey Drive, St. Johns, NL A1B 5C7, Canada',
         reqId: 'Req164191',
       },
       '3': {
         id: '3',
         title: 'Electrical/Plumbing Sales Part Time (St.John\'s)',
-        address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+        address: '70 Kelsey Drive, St. Johns, NL A1B 5C7, Canada',
         reqId: 'Req164345',
       },
     };

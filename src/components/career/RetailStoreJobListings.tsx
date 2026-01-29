@@ -35,7 +35,7 @@ const RetailStoreJobListings: FC = () => {
       id: '1',
       title: 'OVERNIGHT FREIGHT ASSOCIATE PART TIME (ST.JOHN\'S)',
       location: 'St. Johns, NL',
-      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7, Canada',
       reqId: 'Req164191',
       jobType: 'Part Time',
       workArrangement: 'Onsite'
@@ -44,7 +44,7 @@ const RetailStoreJobListings: FC = () => {
       id: '2',
       title: 'ELECTRICAL/PLUMBING SALES PART TIME (ST.JOHN\'S)',
       location: 'St. Johns, NL',
-      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7',
+      address: '70 Kelsey Drive, St. Johns, NL A1B 5C7, Canada',
       reqId: 'Req164345',
       jobType: 'Part Time',
       workArrangement: 'Onsite',
@@ -54,7 +54,7 @@ const RetailStoreJobListings: FC = () => {
       id: '3',
       title: 'CASHIER PART TIME (SYDNEY)',
       location: 'Sydney, NS',
-      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
+      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2, Canada',
       reqId: 'Req164116',
       jobType: 'Part Time',
       workArrangement: 'Onsite'
@@ -63,7 +63,7 @@ const RetailStoreJobListings: FC = () => {
       id: '4',
       title: 'LOT ASSOCIATE PART TIME (SYDNEY)',
       location: 'Sydney, NS',
-      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2',
+      address: '50 Sydney Port Access Road, Sydney, NS B1P 7H2, Canada',
       reqId: 'Req164115',
       jobType: 'Part Time',
       workArrangement: 'Onsite'

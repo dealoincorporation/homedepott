@@ -31,24 +31,24 @@ export const CAREER_OPTIONS: CareerOption[] = [
   { value: "/career-areas/retail-store-opportunities", text: "Retail Store" }
 ];
 
-// Store Locations Data
+// Store Locations Data (Canada & USA only)
 export const STORE_LOCATIONS: Store[] = [
   {
     id: 7151,
     name: "SYDNEY STORE",
-    location: "50 Sydney Port Access Road Sydney, NS",
+    location: "1234 Main Street, Sydney, NY 13160, USA",
     href: "/store/7151"
   },
   {
     id: 7126,
     name: "HALIFAX STORE",
-    location: "368 Lacewood Drive Halifax, NS",
+    location: "368 Lacewood Drive, Halifax, NS B3M 0A1, Canada",
     href: "/store/7126"
   },
   {
     id: 7261,
     name: "NEW MINAS STORE",
-    location: "21 Silver Fox Ave. New Minas, NS",
+    location: "21 Silver Fox Ave, New Minas, NS B4N 3K7, Canada",
     href: "/store/7261",
     hiddenOnMedium: true
   }

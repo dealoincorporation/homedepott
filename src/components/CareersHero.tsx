@@ -14,8 +14,8 @@ const CareersHero: FC = () => {
           <Link href="#" className="hover:underline transition-colors">
             APPLICANT LOGIN
           </Link>
-          <Link href="#" className="hover:underline transition-colors">
-            CURRENT ASSOCIATES
+          <Link href="/job-search" className="hover:underline transition-colors">
+            START YOUR REMOTE CAREER
           </Link>
           <Link
             href="#"
@@ -35,30 +35,30 @@ const CareersHero: FC = () => {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 pt-28 md:pt-32 pb-16 md:pb-20 text-center text-white">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
-            Find Yourself A Great Career
+            Find Your Remote Career
             <br className="hidden sm:block" />
-            <span className="text-orange-500">at The Home Depot Canada</span>
+            <span className="text-orange-500">at The Home Depot Canada & USA</span>
           </h1>
 
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light mb-10 md:mb-14 max-w-4xl mx-auto leading-relaxed">
-            Where you're empowered to make a real impact, foster growth,
+            Where you&apos;re empowered to make a real impact from home—foster growth,
             <br className="hidden md:block" />
-            and shape the future of home improvement.
+            build your career, and shape the future of home improvement through remote work.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-5 sm:gap-8">
             <Link
-              href="#"
+              href="/job-search"
               className="inline-block px-10 py-5 bg-orange-600 hover:bg-orange-700 text-white text-lg md:text-xl font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Search All Jobs
             </Link>
 
             <Link
-              href="#"
-              className="inline-block px-10 py-5 border-2 border-white/80 hover:bg-white/10 text-white text-lg md:text-xl font-semibold rounded-lg transition-all duration-300"
+              href="/job-search"
+              className="inline-block px-10 py-5 border-2 border-white/80 hover:bg-white/10 text-white text-lg md:text-xl font-semibold rounded-lg transition-all duration-300 text-center"
             >
-              Current Associates
+              Start Your Remote Career
             </Link>
           </div>
         </div>

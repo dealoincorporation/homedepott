@@ -7,15 +7,30 @@ const JobSearchHero: FC = () => {
   const [jobTitle, setJobTitle] = useState('');
   const [location, setLocation] = useState('');
 
-  const locations = [
-    'Select A Location',
+  const canadaLocations = [
     'AB - Calgary',
     'AB - Edmonton',
     'BC - Vancouver',
     'ON - Toronto',
     'ON - Mississauga',
     'ON - Ottawa',
-    'QC - Montreal'
+    'ON - Hamilton',
+    'QC - Montreal',
+    'QC - Quebec City',
+    'NL - St. Johns',
+    'NS - Halifax'
+  ];
+
+  const usaLocations = [
+    'NY - New York',
+    'CA - Los Angeles',
+    'CA - San Jose',
+    'TX - Houston',
+    'TX - Dallas',
+    'IL - Chicago',
+    'AZ - Phoenix',
+    'PA - Philadelphia',
+    'FL - Miami'
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -62,11 +77,17 @@ const JobSearchHero: FC = () => {
                   onChange={(e) => setLocation(e.target.value)}
                   className="w-full px-6 py-4 text-gray-800 bg-white focus:outline-none appearance-none pr-10 cursor-pointer"
                 >
-                  {locations.map((loc) => (
-                    <option key={loc} value={loc === 'Select A Location' ? '' : loc}>
-                      {loc}
-                    </option>
-                  ))}
+                  <option value="">Select A Location</option>
+                  <optgroup label="Canada">
+                    {canadaLocations.map((loc) => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="USA">
+                    {usaLocations.map((loc) => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </optgroup>
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                   <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

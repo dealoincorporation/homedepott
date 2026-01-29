@@ -45,7 +45,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
         return {
           id,
           title: featuredJob.title.toUpperCase(),
-          address: featuredJob.jobLocation || 'Virtual, AB',
+          address: featuredJob.jobLocation || '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada',
           reqId: featuredJob.reqId || `Req${160000 + parseInt(id)}`,
           jobType: featuredJob.jobType || 'Full Time',
           workType: featuredJob.type || 'Virtual',
@@ -129,11 +129,15 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
         'MERCHANDISING ASSOCIATE', 'CUSTOMER SERVICE ASSOCIATE', 'PRO ASSOCIATE'
       ];
       const locations = [
-        { city: 'Toronto', province: 'ON', address: '123 Main St, Toronto, ON M1A 1A1' },
-        { city: 'Vancouver', province: 'BC', address: '456 Oak Ave, Vancouver, BC V1B 2C2' },
-        { city: 'Calgary', province: 'AB', address: '789 Pine Rd, Calgary, AB T1A 2B3' },
-        { city: 'Montreal', province: 'QC', address: '321 Maple St, Montreal, QC H1A 2B3' },
-        { city: 'Ottawa', province: 'ON', address: '654 Elm Dr, Ottawa, ON K1A 2B3' }
+        { city: 'Toronto', province: 'ON', address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada' },
+        { city: 'Vancouver', province: 'BC', address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada' },
+        { city: 'Calgary', province: 'AB', address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada' },
+        { city: 'Montreal', province: 'QC', address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada' },
+        { city: 'Ottawa', province: 'ON', address: '2450 Riverside Dr, Ottawa, ON K1H 8K5, Canada' },
+        { city: 'New York', state: 'NY', address: '245 Park Ave, New York, NY 10167, USA' },
+        { city: 'San Jose', state: 'CA', address: '2450 N First St, San Jose, CA 95131, USA' },
+        { city: 'Houston', state: 'TX', address: '2450 Main St, Houston, TX 77002, USA' },
+        { city: 'Chicago', state: 'IL', address: '245 N Michigan Ave, Chicago, IL 60601, USA' }
       ];
       const jobTypes = ['Full Time', 'Part Time', 'Seasonal'];
       const workTypes = ['Onsite', 'Hybrid', 'Multiple Locations', 'Virtual'];
@@ -156,12 +160,14 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
       const workTypeIndex = hash(`workType-${id}`) % workTypes.length;
       const careerAreaIndex = hash(`careerArea-${id}`) % careerAreas.length;
 
-      const title = `${jobTitles[titleIndex]} - ${locations[locationIndex].city.toUpperCase()}`;
+      const loc = locations[locationIndex] as { city: string; province?: string; state?: string; address: string };
+      const region = loc.province ?? loc.state ?? '';
+      const title = `${jobTitles[titleIndex]} - ${loc.city.toUpperCase()}`;
       const jobType = jobTypes[jobTypeIndex];
       const workType = workTypes[workTypeIndex];
       const careerArea = careerAreas[careerAreaIndex];
-      const location = `${locations[locationIndex].city}, ${locations[locationIndex].province}`;
-      const address = locations[locationIndex].address;
+      const location = `${loc.city}, ${region}`;
+      const address = loc.address;
       const numericId = parseInt(id) || 0;
       const reqId = `Req${160000 + numericId}`;
 

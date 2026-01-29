@@ -8,14 +8,14 @@ const StoreLocationsSection: FC = () => {
   const [currentStoreIndex, setCurrentStoreIndex] = useState(0);
 
   const stores = [
-    { name: 'ST JOHN\'S STORE', address: '70 Kelsey Drive St. Johns, NL A1B 5C7' },
-    { name: 'ST CATHARINES STORE', address: '20 YMCA Drive St. Catharines, ON L2N 7R6' },
-    { name: 'HAMILTON STORE', address: '350 Centennial Parkway Hamilton, ON L8E 2X4' },
-    { name: 'ANCASTER STORE', address: '122 Martindale Crescent Ancaster, ON L9K 1J9' },
-    { name: 'BURLINGTON STORE', address: '3050 Davidson Court Burlington, ON L7M 4M9' },
-    { name: 'OAKVILLE BURLOAK STORE', address: '3300 South Service Road West Oakville, ON L6L 0B1' },
-    { name: 'TRAFALGAR VILLAGE STORE', address: '99 Cross Avenue Oakville, ON L6J 2W7' },
-    { name: 'OAKVILLE STORE', address: '2555 Bristol Circle Oakville, ON L6H 5W9' }
+    { name: 'ST JOHN\'S STORE', address: '70 Kelsey Drive, St. Johns, NL A1B 5C7, Canada' },
+    { name: 'ST CATHARINES STORE', address: '20 YMCA Drive, St. Catharines, ON L2N 7R6, Canada' },
+    { name: 'HAMILTON STORE', address: '350 Centennial Parkway, Hamilton, ON L8E 2X4, Canada' },
+    { name: 'ANCASTER STORE', address: '122 Martindale Crescent, Ancaster, ON L9K 1J9, Canada' },
+    { name: 'BURLINGTON STORE', address: '3050 Davidson Court, Burlington, ON L7M 4M9, Canada' },
+    { name: 'OAKVILLE BURLOAK STORE', address: '3300 South Service Road West, Oakville, ON L6L 0B1, Canada' },
+    { name: 'TRAFALGAR VILLAGE STORE', address: '99 Cross Avenue, Oakville, ON L6J 2W7, Canada' },
+    { name: 'OAKVILLE STORE', address: '2555 Bristol Circle, Oakville, ON L6H 5W9, Canada' }
   ];
 
   return (

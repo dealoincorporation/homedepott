@@ -24,8 +24,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
     {
       id: '1',
       title: 'DATA ENTRY',
-      location: 'Virtual, AB',
-      address: 'Virtual, AB',
+      location: 'Calgary, AB',
+      address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada',
       reqId: 'Req163351',
       jobType: 'Full Time',
       workType: 'Virtual',
@@ -36,8 +36,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
     {
       id: '2',
       title: 'PAYROLL CLERK',
-      location: 'Virtual, AB',
-      address: 'Virtual, AB',
+      location: 'Toronto, ON',
+      address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada',
       reqId: 'Req164191',
       jobType: 'Full Time',
       workType: 'Virtual',
@@ -48,8 +48,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
     {
       id: '3',
       title: 'CUSTOMER REPRESENTATIVE',
-      location: 'Virtual, AB',
-      address: 'Virtual, AB',
+      location: 'Vancouver, BC',
+      address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada',
       reqId: 'Req164345',
       jobType: 'Full Time',
       workType: 'Virtual',
@@ -60,8 +60,8 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
     {
       id: '4',
       title: 'VIRTUAL ASSISTANT',
-      location: 'Virtual, AB',
-      address: 'Virtual, AB',
+      location: 'Montreal, QC',
+      address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada',
       reqId: 'Req164116',
       jobType: 'Full Time',
       workType: 'Virtual',
@@ -229,12 +229,6 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
       // Filter by job location - check if location matches any selected location
       if (filters.jobLocation?.length) {
         const jobLocationMatch = filters.jobLocation.some(selectedLocation => {
-          // Handle "Virtual" location separately
-          if (selectedLocation === 'Virtual' || selectedLocation.toUpperCase().includes('VIRTUAL')) {
-            return job.location.toUpperCase().includes('VIRTUAL') || 
-                   job.address.toUpperCase().includes('VIRTUAL');
-          }
-          
           // Parse selected location (e.g., "AB - Calgary" -> province: "AB", city: "Calgary")
           const [province, city] = selectedLocation.split(' - ');
           

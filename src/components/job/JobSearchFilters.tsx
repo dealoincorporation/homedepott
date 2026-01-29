@@ -36,8 +36,9 @@ const JobSearchFilters: FC<JobSearchFiltersProps> = ({ onFilterChange }) => {
   ];
 
   const jobLocations = [
-    'Virtual', 'AB - Airdrie', 'AB - Calgary', 'AB - Edmonton', 'BC - Vancouver', 'ON - Toronto',
-    'ON - Mississauga', 'ON - Ottawa', 'ON - Hamilton', 'QC - Montreal', 'QC - Quebec City'
+    'AB - Airdrie', 'AB - Calgary', 'AB - Edmonton', 'BC - Vancouver', 'ON - Toronto',
+    'ON - Mississauga', 'ON - Ottawa', 'ON - Hamilton', 'QC - Montreal', 'QC - Quebec City',
+    'NY - New York', 'CA - Los Angeles', 'CA - San Jose', 'TX - Houston', 'IL - Chicago'
   ];
 
   const jobTypes = [

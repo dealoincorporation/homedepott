@@ -3,9 +3,9 @@ import type { FC } from 'react';
 
 const StoreLocations: FC = () => {
   const stores = [
-    { name: 'SYDNEY STORE', address: '1234 Main Street, Sydney, NY 13160, USA', applyUrl: '/apply/1' },
-    { name: 'HALIFAX STORE', address: '368 Lacewood Drive, Halifax, NS B3M 0A1, Canada', applyUrl: '/apply/2' },
-    { name: 'NEW MINAS STORE', address: '21 Silver Fox Ave. New Minas, NS' }
+    { name: 'SYDNEY STORE', address: '1234 Main Street, Sydney, NY 13160, USA' },
+    { name: 'HALIFAX STORE', address: '368 Lacewood Drive, Halifax, NS B3M 0A1, Canada' },
+    { name: 'NEW MINAS STORE', address: '21 Silver Fox Ave, New Minas, NS B4N 3K7, Canada' }
   ];
 
   return (
@@ -34,17 +34,9 @@ const StoreLocations: FC = () => {
                 <div className="font-bold text-black text-base md:text-lg lg:text-xl uppercase mb-2 leading-tight tracking-tight">
                   {store.name}
                 </div>
-                <div className="text-black text-sm md:text-base lg:text-lg leading-relaxed mb-4 flex-grow">
+                <div className="text-black text-sm md:text-base lg:text-lg leading-relaxed flex-grow">
                   {store.address}
                 </div>
-                {store.applyUrl && (
-                  <Link
-                    href={store.applyUrl}
-                    className="inline-block bg-orange-600 hover:bg-orange-700 text-white text-sm md:text-base font-semibold px-4 py-2 rounded transition-colors duration-300 text-center w-full"
-                  >
-                    Apply Here
-                  </Link>
-                )}
               </div>
             ))}
           </div>
