@@ -30,6 +30,19 @@ export interface FeaturedJobData {
   qualifications?: string[];
 }
 
+export const FEATURED_JOB_SLUGS = [
+  'data-entry',
+  'payroll-clerk',
+  'customer-representative',
+  'virtual-assistant',
+  'merchandising-met-associate',
+  'order-picker',
+  'receiving-associate',
+  'sales-associate',
+] as const;
+
+export type FeaturedJobSlug = (typeof FEATURED_JOB_SLUGS)[number];
+
 export const featuredJobsData: Record<string, FeaturedJobData> = {
   'data-entry': {
     title: 'Data Entry',

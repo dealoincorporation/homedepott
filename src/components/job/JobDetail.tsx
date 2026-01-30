@@ -3,6 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { featuredJobsData } from '@/data/featured-jobs';
+import {
+  JOB_TITLES,
+  JOB_SEARCH_LOCATIONS,
+  JOB_TYPES,
+  WORK_TYPES,
+  CAREER_AREAS,
+  hashString,
+  getLocationDisplayName,
+} from '@/data/jobs';
 
 interface JobDetailProps {
   jobId: string;
@@ -118,55 +127,19 @@ const JobDetail: React.FC<JobDetailProps> = ({ jobId }) => {
         return baseJobs[id];
       }
 
-      // Generate job data for other IDs (matching JobSearchResults logic)
-      const jobTitles = [
-        'DATA ENTRY', 'DATA ENTRY SPECIALIST', 'DATA ENTRY CLERK', 'DATA PROCESSING ASSOCIATE',
-        'PAYROLL CLERK', 'PAYROLL SPECIALIST', 'PAYROLL ADMINISTRATOR', 'PAYROLL ASSISTANT',
-        'CUSTOMER REPRESENTATIVE', 'CUSTOMER SERVICE REPRESENTATIVE', 'CUSTOMER SUPPORT REPRESENTATIVE', 'CUSTOMER CARE REPRESENTATIVE',
-        'VIRTUAL ASSISTANT', 'REMOTE ASSISTANT', 'ADMINISTRATIVE ASSISTANT', 'EXECUTIVE ASSISTANT',
-        'SALES ASSOCIATE', 'CASHIER', 'LOT ASSOCIATE', 'FREIGHT ASSOCIATE',
-        'DEPARTMENT SUPERVISOR', 'ASSISTANT STORE MANAGER', 'STORE MANAGER',
-        'MERCHANDISING ASSOCIATE', 'CUSTOMER SERVICE ASSOCIATE', 'PRO ASSOCIATE'
-      ];
-      const locations = [
-        { city: 'Toronto', province: 'ON', address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada' },
-        { city: 'Vancouver', province: 'BC', address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada' },
-        { city: 'Calgary', province: 'AB', address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada' },
-        { city: 'Montreal', province: 'QC', address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada' },
-        { city: 'Ottawa', province: 'ON', address: '2450 Riverside Dr, Ottawa, ON K1H 8K5, Canada' },
-        { city: 'New York', state: 'NY', address: '245 Park Ave, New York, NY 10167, USA' },
-        { city: 'San Jose', state: 'CA', address: '2450 N First St, San Jose, CA 95131, USA' },
-        { city: 'Houston', state: 'TX', address: '2450 Main St, Houston, TX 77002, USA' },
-        { city: 'Chicago', state: 'IL', address: '245 N Michigan Ave, Chicago, IL 60601, USA' }
-      ];
-      const jobTypes = ['Full Time', 'Part Time', 'Seasonal'];
-      const workTypes = ['Onsite', 'Hybrid', 'Multiple Locations', 'Virtual'];
-      const careerAreas = ['Corporate', 'Field', 'Retail Management', 'Retail Store'];
+      const locations = JOB_SEARCH_LOCATIONS;
+      const titleIndex = hashString(`title-${id}`) % JOB_TITLES.length;
+      const locationIndex = hashString(`location-${id}`) % locations.length;
+      const jobTypeIndex = hashString(`jobType-${id}`) % JOB_TYPES.length;
+      const workTypeIndex = hashString(`workType-${id}`) % WORK_TYPES.length;
+      const careerAreaIndex = hashString(`careerArea-${id}`) % CAREER_AREAS.length;
 
-      // Deterministic hash function
-      const hash = (str: string) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-          const char = str.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
-          hash = hash & hash;
-        }
-        return Math.abs(hash);
-      };
-
-      const titleIndex = hash(`title-${id}`) % jobTitles.length;
-      const locationIndex = hash(`location-${id}`) % locations.length;
-      const jobTypeIndex = hash(`jobType-${id}`) % jobTypes.length;
-      const workTypeIndex = hash(`workType-${id}`) % workTypes.length;
-      const careerAreaIndex = hash(`careerArea-${id}`) % careerAreas.length;
-
-      const loc = locations[locationIndex] as { city: string; province?: string; state?: string; address: string };
-      const region = loc.province ?? loc.state ?? '';
-      const title = `${jobTitles[titleIndex]} - ${loc.city.toUpperCase()}`;
-      const jobType = jobTypes[jobTypeIndex];
-      const workType = workTypes[workTypeIndex];
-      const careerArea = careerAreas[careerAreaIndex];
-      const location = `${loc.city}, ${region}`;
+      const loc = locations[locationIndex];
+      const title = `${JOB_TITLES[titleIndex]} - ${loc.city.toUpperCase()}`;
+      const jobType = JOB_TYPES[jobTypeIndex];
+      const workType = WORK_TYPES[workTypeIndex];
+      const careerArea = CAREER_AREAS[careerAreaIndex];
+      const location = getLocationDisplayName(loc);
       const address = loc.address;
       const numericId = parseInt(id) || 0;
       const reqId = `Req${160000 + numericId}`;

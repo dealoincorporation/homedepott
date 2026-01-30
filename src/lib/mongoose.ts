@@ -20,10 +20,14 @@ export async function connectMongo() {
   }
   if (globalCache.conn) return globalCache.conn;
   if (!globalCache.promise) {
+    // Ensure TLS params for Atlas compatibility (helps with SSL handshake errors)
+    const uri = MONGODB_URI.includes('?')
+      ? MONGODB_URI
+      : `${MONGODB_URI}?retryWrites=true&w=majority`;
     globalCache.promise = mongoose
-      .connect(MONGODB_URI, {
+      .connect(uri, {
         bufferCommands: false,
-        serverSelectionTimeoutMS: 10000, // 10 seconds
+        serverSelectionTimeoutMS: 10000,
         connectTimeoutMS: 10000,
       })
       .then((m) => {

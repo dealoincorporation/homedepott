@@ -3,30 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { FC } from 'react';
+import { FEATURED_JOB_SLUGS, featuredJobsData } from '@/data/featured-jobs';
 
 const FeaturedJobs: FC = () => {
-  const featuredJobs = [
-    {
-      title: "Data Entry",
-      image: "/images/assistant-store-manager-fj.dd1dc314.webp",
-      href: "/featured-jobs/data-entry"
-    },
-    {
-      title: "Payroll Clerk",
-      image: "/images/cashier-fj.dd6cbaeb.webp",
-      href: "/featured-jobs/payroll-clerk"
-    },
-    {
-      title: "Customer Representative",
-      image: "/images/department-supervisor-fj.33264519.webp",
-      href: "/featured-jobs/customer-representative"
-    },
-    {
-      title: "Virtual Assistant",
-      image: "/images/freight-associate-fj.235589f6.webp",
-      href: "/featured-jobs/virtual-assistant"
-    }
-  ];
+  const featuredJobs = FEATURED_JOB_SLUGS.slice(0, 4).map((slug) => {
+    const job = featuredJobsData[slug];
+    return {
+      title: job?.title ?? slug,
+      image: job?.image ?? '/images/assistant-store-manager-fj.dd1dc314.webp',
+      href: `/featured-jobs/${slug}`,
+    };
+  });
 
   return (
     <section className="bg-gray-50 py-12 md:py-16 lg:py-20">

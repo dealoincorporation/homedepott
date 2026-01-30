@@ -65,38 +65,54 @@ function ApplicantLoginContent() {
       
       let errorMessage = 'Something went wrong';
       try {
-        const data = (await res.json().catch(() => ({}))) as any;
+        const data = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          user?: { role?: string };
+          needsVerification?: boolean;
+          email?: string;
+        };
         if (!res.ok) {
+          // Redirect to verify-email if login failed due to unverified email
+          if (res.status === 403 && data.needsVerification && data.email) {
+            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+            return;
+          }
           errorMessage = data?.error ?? 'Something went wrong';
           throw new Error(errorMessage);
         }
 
+        // Register: redirect to verify-email with code input
+        if (data.needsVerification && data.email) {
+          toast.success('Check your email for the verification code.');
+          const params = new URLSearchParams({ email: data.email });
+          const redirectParam = searchParams.get('redirect');
+          const apply = searchParams.get('apply');
+          if (redirectParam) params.set('redirect', redirectParam);
+          if (apply) params.set('apply', apply);
+          router.push(`/verify-email?${params.toString()}`);
+          return;
+        }
+
         const role = data?.user?.role as string | undefined;
-        
-        // Show success toast
+
         toast.success(mode === 'login' ? 'Successfully signed in!' : 'Account created successfully!');
-        
-        // Check if we need to redirect to application page
+
         const apply = searchParams.get('apply');
-        const redirect = searchParams.get('redirect');
-        
-        if (apply === 'true' && redirect) {
-          // Extract jobId from redirect URL (e.g., /application/1 or /apply/1)
-          const jobIdMatch = redirect.match(/\/(?:application|apply)\/([^/?]+)/);
-          if (jobIdMatch && jobIdMatch[1]) {
+        const redirectParam = searchParams.get('redirect');
+
+        if (apply === 'true' && redirectParam) {
+          const jobIdMatch = redirectParam.match(/\/(?:application|apply)\/([^/?]+)/);
+          if (jobIdMatch?.[1]) {
             router.push(`/application/${jobIdMatch[1]}`);
             return;
           }
-          // Fallback to redirect as-is
-          router.push(redirect);
+          router.push(redirectParam);
           return;
         }
-        
-        // Default redirect based on role
+
         router.push(role === 'admin' ? '/admin' : '/dashboard');
-      } catch (parseError: any) {
-        // If JSON parsing fails, use the error message from the response
-        if (parseError.message && parseError.message !== 'Something went wrong') {
+      } catch (parseError: unknown) {
+        if (parseError instanceof Error && parseError.message !== 'Something went wrong') {
           errorMessage = parseError.message;
         }
         throw new Error(errorMessage);
@@ -293,7 +309,7 @@ function ApplicantLoginContent() {
                   )}
 
                   <div>
-                    <Link href="/accessibility" className="text-blue-600 hover:underline font-semibold">
+                    <Link href="/forgot-password" className="text-blue-600 hover:underline font-semibold">
                       Forgot your password?
                     </Link>
                   </div>

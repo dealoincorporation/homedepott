@@ -22,6 +22,38 @@ One common reason is that you're trying to access the database from an IP that i
 
 ---
 
+### Error: SSL/TLS Alert Internal Error
+```
+MongoServerSelectionError: ssl3_read_bytes:tlsv1 alert internal error
+ERR_SSL_TLSV1_ALERT_INTERNAL_ERROR
+```
+
+**This means:** A TLS handshake failure when connecting to MongoDB Atlas.
+
+**Fixes to try:**
+
+1. **Update Node.js** – Use Node.js 18 or 20. Older versions can cause TLS issues:
+   ```bash
+   node -v  # Should be v18+ or v20+
+   ```
+
+2. **Regenerate connection string** – In MongoDB Atlas: Database → Connect → Drivers → copy a new connection string.
+
+3. **Add TLS options to the URI** – Append to your connection string:
+   ```
+   ?retryWrites=true&w=majority&tls=true
+   ```
+   Example:
+   ```
+   mongodb+srv://user:pass@cluster.mongodb.net/homedepot?retryWrites=true&w=majority&tls=true
+   ```
+
+4. **Check MongoDB Atlas status** – Ensure the cluster is running and not paused.
+
+5. **IP whitelist** – Confirm your IP is allowed under Network Access in Atlas.
+
+---
+
 ### Error: DNS Resolution Failed
 ```
 ⨯ [Error: queryTxt ESERVFAIL hemedepot.c0whf8e.mongodb.net]

@@ -3,6 +3,16 @@
 import { useState, useMemo, useEffect } from 'react';
 import type { FC } from 'react';
 import JobListingCard from '@/components/job/JobListingCard';
+import {
+  JOB_IMAGES,
+  JOB_TITLES,
+  JOB_SEARCH_LOCATIONS,
+  JOB_TYPES,
+  WORK_TYPES,
+  CAREER_AREAS,
+  hashString,
+  getLocationDisplayName,
+} from '@/data/jobs';
 
 interface JobSearchResultsProps {
   filters?: {
@@ -122,89 +132,34 @@ const JobSearchResults: FC<JobSearchResultsProps> = ({ filters, onFilterClick })
   // Generate more job variations to simulate 372 jobs
   const generateJobs = () => {
     const allJobs = [];
-    const jobTitles = [
-      'DATA ENTRY', 'DATA ENTRY SPECIALIST', 'DATA ENTRY CLERK', 'DATA PROCESSING ASSOCIATE',
-      'PAYROLL CLERK', 'PAYROLL SPECIALIST', 'PAYROLL ADMINISTRATOR', 'PAYROLL ASSISTANT',
-      'CUSTOMER REPRESENTATIVE', 'CUSTOMER SERVICE REPRESENTATIVE', 'CUSTOMER SUPPORT REPRESENTATIVE', 'CUSTOMER CARE REPRESENTATIVE',
-      'VIRTUAL ASSISTANT', 'REMOTE ASSISTANT', 'ADMINISTRATIVE ASSISTANT', 'EXECUTIVE ASSISTANT'
-    ];
-    const locations = [
-      // US addresses
-      { city: 'New York', state: 'NY', address: '245 Park Avenue, New York, NY 10167, USA' },
-      { city: 'Los Angeles', state: 'CA', address: '2450 W Olympic Blvd, Los Angeles, CA 90064, USA' },
-      { city: 'Chicago', state: 'IL', address: '245 N Michigan Ave, Chicago, IL 60601, USA' },
-      { city: 'Houston', state: 'TX', address: '2450 Main St, Houston, TX 77002, USA' },
-      { city: 'Phoenix', state: 'AZ', address: '2450 E Camelback Rd, Phoenix, AZ 85016, USA' },
-      { city: 'Philadelphia', state: 'PA', address: '2450 Market St, Philadelphia, PA 19103, USA' },
-      { city: 'San Antonio', state: 'TX', address: '2450 Broadway St, San Antonio, TX 78215, USA' },
-      { city: 'San Diego', state: 'CA', address: '2450 Kettner Blvd, San Diego, CA 92101, USA' },
-      { city: 'Dallas', state: 'TX', address: '2450 N Pearl St, Dallas, TX 75201, USA' },
-      { city: 'San Jose', state: 'CA', address: '2450 N First St, San Jose, CA 95131, USA' },
-      // Canada addresses
-      { city: 'Toronto', province: 'ON', address: '2450 Victoria Park Ave, Toronto, ON M2J 4A2, Canada' },
-      { city: 'Vancouver', province: 'BC', address: '2450 Marine Dr, Vancouver, BC V7V 1J2, Canada' },
-      { city: 'Calgary', province: 'AB', address: '2450 32 Ave NE, Calgary, AB T2E 6T8, Canada' },
-      { city: 'Montreal', province: 'QC', address: '2450 Rue Sherbrooke O, Montreal, QC H3H 1E8, Canada' },
-      { city: 'Ottawa', province: 'ON', address: '2450 Riverside Dr, Ottawa, ON K1H 8K5, Canada' },
-      { city: 'Edmonton', province: 'AB', address: '2450 Jasper Ave, Edmonton, AB T5J 3N9, Canada' },
-      { city: 'Winnipeg', province: 'MB', address: '2450 Portage Ave, Winnipeg, MB R3J 0E4, Canada' },
-      { city: 'Quebec City', province: 'QC', address: '2450 Boulevard Laurier, Quebec City, QC G1V 2L2, Canada' },
-      { city: 'Hamilton', province: 'ON', address: '2450 Main St W, Hamilton, ON L8N 3Z5, Canada' },
-      { city: 'Kitchener', province: 'ON', address: '2450 King St E, Kitchener, ON N2A 1A5, Canada' }
-    ];
-    const jobTypes = ['Full Time', 'Part Time', 'Seasonal'];
-    const workTypes = ['Onsite', 'Hybrid', 'Multiple Locations', 'Virtual'];
-    const careerAreas = ['Corporate', 'Field', 'Retail Management', 'Retail Store'];
-
-    // Simple deterministic hash function for consistent results
-    const hash = (str: string) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-      }
-      return Math.abs(hash);
-    };
+    const locations = JOB_SEARCH_LOCATIONS;
 
     // Add base jobs first
     allJobs.push(...baseJobs);
 
-    // Generate additional jobs
-    const jobImages = [
-      '/images/assistant-store-manager-fj.dd1dc314.webp',
-      '/images/cashier-fj.dd6cbaeb.webp',
-      '/images/department-supervisor-fj.33264519.webp',
-      '/images/freight-associate-fj.235589f6.webp'
-    ];
-    
     for (let i = 9; i <= 372; i++) {
       const jobId = i.toString();
-      // Use deterministic selection based on job ID
-      const titleIndex = hash(`title-${jobId}`) % jobTitles.length;
-      const locationIndex = hash(`location-${jobId}`) % locations.length;
-      const jobTypeIndex = hash(`jobType-${jobId}`) % jobTypes.length;
-      const workTypeIndex = hash(`workType-${jobId}`) % workTypes.length;
-      const careerAreaIndex = hash(`careerArea-${jobId}`) % careerAreas.length;
-      const imageIndex = hash(`image-${jobId}`) % jobImages.length;
-      
-      // Deterministic isNew: roughly 10% of jobs (based on hash)
-      const isNew = (hash(`isNew-${jobId}`) % 10) === 0;
-      
+      const titleIndex = hashString(`title-${jobId}`) % JOB_TITLES.length;
+      const locationIndex = hashString(`location-${jobId}`) % locations.length;
+      const jobTypeIndex = hashString(`jobType-${jobId}`) % JOB_TYPES.length;
+      const workTypeIndex = hashString(`workType-${jobId}`) % WORK_TYPES.length;
+      const careerAreaIndex = hashString(`careerArea-${jobId}`) % CAREER_AREAS.length;
+      const imageIndex = hashString(`image-${jobId}`) % JOB_IMAGES.length;
+
       const selectedLocation = locations[locationIndex];
-      const locationName = selectedLocation.city + (selectedLocation.state ? `, ${selectedLocation.state}` : `, ${selectedLocation.province}`);
-      
+      const isNew = (hashString(`isNew-${jobId}`) % 10) === 0;
+
       allJobs.push({
         id: jobId,
-        title: `${jobTitles[titleIndex]}`,
-        location: locationName,
+        title: JOB_TITLES[titleIndex],
+        location: getLocationDisplayName(selectedLocation),
         address: selectedLocation.address,
         reqId: `Req${160000 + i}`,
-        jobType: jobTypes[jobTypeIndex],
-        workType: workTypes[workTypeIndex],
-        careerArea: careerAreas[careerAreaIndex],
+        jobType: JOB_TYPES[jobTypeIndex],
+        workType: WORK_TYPES[workTypeIndex],
+        careerArea: CAREER_AREAS[careerAreaIndex],
         isNew,
-        image: jobImages[imageIndex]
+        image: JOB_IMAGES[imageIndex],
       });
     }
 

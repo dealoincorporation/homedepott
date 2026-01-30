@@ -57,6 +57,19 @@ export async function verifyPassword(password: string, hash: string) {
   return bcrypt.compare(password, hash);
 }
 
+/** Password reset token: expires in 1 hour */
+export function signPasswordResetToken(userId: string) {
+  const secret = requireJwtSecret();
+  return jwt.sign({ sub: userId, purpose: 'password-reset' }, secret, { expiresIn: '1h' });
+}
+
+export function verifyPasswordResetToken(token: string): string {
+  const secret = requireJwtSecret();
+  const payload = jwt.verify(token, secret) as { sub: string; purpose?: string };
+  if (payload.purpose !== 'password-reset') throw new Error('Invalid token');
+  return payload.sub;
+}
+
 export function parseAdminEmails(): Set<string> {
   const raw = process.env.ADMIN_EMAILS ?? '';
   return new Set(

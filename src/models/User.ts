@@ -7,6 +7,7 @@ export type UserDoc = {
   name?: string;
   passwordHash: string;
   role: AuthRole;
+  emailVerified?: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -17,6 +18,7 @@ const UserSchema = new Schema<UserDoc>(
     name: { type: String, required: false, trim: true },
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], required: true, default: 'user' },
+    emailVerified: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

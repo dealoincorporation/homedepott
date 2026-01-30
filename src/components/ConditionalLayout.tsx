@@ -13,7 +13,9 @@ export default function ConditionalLayout({
   const isApplyRoute = pathname?.startsWith('/apply/');
   const isApplicationRoute = pathname?.startsWith('/application/');
   const isApplicantLoginRoute = pathname === '/applicant-login';
-  const shouldHideHeader = isApplyRoute || isApplicationRoute || isApplicantLoginRoute;
+  const isAuthPage =
+    pathname === '/forgot-password' || pathname === '/verify-email' || pathname === '/reset-password';
+  const shouldHideHeader = isApplyRoute || isApplicationRoute || isApplicantLoginRoute || isAuthPage;
 
   return (
     <>

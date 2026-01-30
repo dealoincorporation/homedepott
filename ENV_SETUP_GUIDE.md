@@ -15,8 +15,12 @@ JWT_SECRET="a54cb949626ef19cb6cac3cf7e4707a933866e79d3986fe8cca6164105a7aef148fe
 # Replace with your actual admin email(s)
 ADMIN_EMAILS="admin@homedepot.ca"
 
-# Email Configuration (OPTIONAL - Only if you want to send emails)
-# If you don't set these, the app will still work but won't send emails
+# Resend - For password reset emails (OPTIONAL)
+# Get your API key at https://resend.com/api-keys
+RESEND_API_KEY="re_xxxxxxxxxxxx"
+# RESEND_FROM_EMAIL="The Home Depot Careers <noreply@yourdomain.com>"  # Optional, defaults to onboarding@resend.dev
+
+# Legacy SMTP (OPTIONAL - for other email features)
 SMTP_HOST="smtp.gmail.com"
 SMTP_PORT="587"
 SMTP_USER="your-email@gmail.com"
@@ -52,5 +56,6 @@ After setting up `.env.local`:
 ## Notes
 
 - **Admin Access**: Any user who signs up with an email in `ADMIN_EMAILS` will automatically get `role=admin`
+- **Password Reset**: Uses Resend for forgot-password emails. See `RESEND_SETUP.md` for detailed setup.
 - **Email Notifications**: If SMTP is not configured, applications will still be saved but no emails will be sent
 - **Security**: Never commit `.env.local` to git (it should be in `.gitignore`)

@@ -68,24 +68,15 @@ const JobListingCard: FC<JobListingCardProps> = ({
       )}
 
       <div className="flex gap-3 lg:gap-4 items-start p-4 lg:p-5 md:p-6">
-        {/* Home Depot Logo - Mobile: Orange Square, Desktop: Regular Logo */}
-        <div className="flex-shrink-0">
-          {/* Mobile: Orange Square Logo */}
-          <div className="lg:hidden w-14 h-14 bg-orange-600 flex items-center justify-center p-1.5">
-            <div className="text-white text-[7px] font-bold leading-[1.1] text-center uppercase tracking-tight">
-              THE HOME DEPOT
-            </div>
-          </div>
-          {/* Desktop: Regular Logo */}
-          <div className="hidden lg:flex w-16 h-16 md:w-20 md:h-20 relative items-center justify-center">
-            <Image
-              src="/images/icons/logo.8eb14c19.png"
-              alt="The Home Depot Logo"
-              width={80}
-              height={80}
-              className="object-contain"
-            />
-          </div>
+        {/* Home Depot Logo - same on mobile and desktop */}
+        <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative flex items-center justify-center">
+          <Image
+            src="/images/icons/logo.8eb14c19.png"
+            alt="The Home Depot Logo"
+            width={80}
+            height={80}
+            className="object-contain w-full h-full"
+          />
         </div>
 
         {/* Job Details */}

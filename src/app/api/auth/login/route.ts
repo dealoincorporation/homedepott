@@ -35,6 +35,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
+    // Require email verification (treat undefined as verified for backward compatibility)
+    if (user.emailVerified === false) {
+      return NextResponse.json(
+        { error: 'Please verify your email before signing in. Check your inbox for the verification code.', needsVerification: true, email: user.email },
+        { status: 403 }
+      );
+    }
+
     const ok = await verifyPassword(password, user.passwordHash);
     if (!ok) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
