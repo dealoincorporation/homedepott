@@ -80,8 +80,11 @@ function VerifyEmailContent() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-lg p-8">
             <h1 className="text-2xl font-bold text-black mb-2 text-center">Verify Your Email</h1>
-            <p className="text-gray-600 text-sm text-center mb-6">
+            <p className="text-gray-600 text-sm text-center mb-4">
               Enter the 6-digit code we sent to your email.
+            </p>
+            <p className="text-gray-500 text-xs text-center mb-6">
+              Didn&apos;t receive it? Click &quot;Resend&quot; below — and check your spam folder.
             </p>
 
             <form onSubmit={onSubmit} className="space-y-4">

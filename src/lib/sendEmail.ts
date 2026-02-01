@@ -11,7 +11,7 @@ function getTransporter() {
       service: 'gmail',
       auth: {
         user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ''),
       },
     });
   }
@@ -25,6 +25,7 @@ export async function sendVerificationCodeEmail(
   name?: string
 ) {
   const transporter = getTransporter();
+  const fromUser = process.env.GMAIL_USER!;
   const fromName = process.env.EMAIL_FROM_NAME || 'The Home Depot Careers';
 
   const subject =
@@ -40,6 +41,8 @@ export async function sendVerificationCodeEmail(
       ? 'Use the code below to verify your email address and activate your account.'
       : 'Use the code below to reset your password.';
 
+  const text = `Hi${name ? ` ${name}` : ''},\n\n${body}\n\nYour code: ${code}\n\nThis code expires in 15 minutes. If you didn't request this, you can safely ignore this email.`;
+
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #ff6600;">${title}</h2>
@@ -50,10 +53,16 @@ export async function sendVerificationCodeEmail(
     </div>
   `;
 
-  await transporter.sendMail({
-    from: `${fromName} <${process.env.GMAIL_USER}>`,
+  const mailOptions = {
+    from: `"${fromName}" <${fromUser}>`,
     to,
     subject,
+    text,
     html,
-  });
+  };
+
+  const result = await transporter.sendMail(mailOptions);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[Email] ${purpose} sent to ${to}, messageId: ${result.messageId}`);
+  }
 }
